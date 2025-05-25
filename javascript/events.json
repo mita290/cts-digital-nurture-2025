@@ -1,0 +1,9 @@
+[
+  {"id" : 1, "name": "Art Expo", "date": "2025-06-15", "seats": 25, "category": "artFair"},
+  {"id" : 2, "name": "Food Carnival", "date": "2025-07-01", "seats": 40, "category": "foodFest"},
+  {"id" : 3, "name": "Music Fest", "date": "2025-07-20", "seats": 50, "category": "music"},
+  {"id": 4, "name": "Art Fair Spring", "date": "2025-06-15", "seats": 5, "category": "artFair"},
+  {"id": 5, "name": "Food Festival Summer", "date": "2025-07-10", "seats": 0, "category": "foodFest"},
+  {"id": 6, "name": "Music Fest 2024", "date": "2024-11-01", "seats": 30, "category": "music"},
+  {"id": 7, "name": "Baking Workshop", "date": "2025-05-30", "seats": 15, "category": "workshop"}
+]
