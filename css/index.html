@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>City Council Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        body {
+            background-color: #f4f4f4; 
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul class="nav-list">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#events">Events</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="help.html" target="_blank">Help</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="home">
+            <div id="mainHeader">
+                <h1 style="color: red;">Welcome back, resident!</h1>
+                <span class="special-offer">Special Offer!</span>
+            </div>
+            <p class="highlight">Don't miss our bake sale this weekend!</p>
+
+            <div class="news">
+                <h2>Community Bulletin</h2>
+                <p>
+                    Our city is hosting a series of events to bring everyone together. From gardening days to food festivals,
+                    there's something for all age groups. Stay connected and check the portal regularly for updates!
+                </p>
+            </div>
+        </section>
+
+        <section id="events">
+            <h2 class="section-header">Images From Recent Community Events</h2>
+            <p>(Double-click to enlarge)</p>
+            <table>
+                <tr>
+                    <td><img src="https://picsum.photos/200/200?random=1" id="img1" alt="img1" class="eventimage" title="potluck" ondblclick="toggle(1)" /></td>
+                    <td><img src="https://picsum.photos/200/200?random=2" id="img2" alt="img2" class="eventimage" title="park cleanup" ondblclick="toggle(2)" /></td>
+                    <td><img src="https://picsum.photos/200/200?random=3" id="img3" alt="img3" class="eventimage" title="gardening" ondblclick="toggle(3)" /></td>
+                </tr>
+                <tr>
+                    <td><img src="https://picsum.photos/200/200?random=4" id="img4" alt="img4" class="eventimage" title="gift exchange" ondblclick="toggle(4)" /></td>
+                    <td><img src="https://picsum.photos/200/200?random=5" id="img5" alt="img5" class="eventimage" title="cleanup" ondblclick="toggle(5)" /></td>
+                    <td><img src="https://picsum.photos/200/200?random=6" id="img6" alt="img6" class="eventimage" title="food drive" ondblclick="toggle(6)" /></td>
+                </tr>
+            </table>
+        </section>
+
+        <form onsubmit="submitForm(event)">
+            <fieldset class="eventCard">
+                <legend><h3>Register Event</h3></legend>
+                <label>Name: <input type="text" name="name" placeholder="Your Name" required autofocus /></label><br />
+                <label>Email: <input type="email" name="email" placeholder="sample@abc.com" required /></label><br />
+                <label>Date: <input type="date" name="date" required /></label><br />
+                <label>Event Type:
+                    <select name="eventType" id="eventType" onchange="savePreference(this)" required>
+                        <option value="">Choose an option</option>
+                        <option value="artFair">Art Fair</option>
+                        <option value="foodFest">Food Festival</option>
+                    </select>
+                </label><br />
+                <button type="button" onclick="clearPrefs()">Clear Preference(s)</button><br />
+                <label>Message: <textarea name="message" placeholder="Any additional message..."></textarea></label><br />
+                <label>Phone Number: <input type="text" id="phone" onblur="validatePhone()"></label><br />
+                <label>Feedback: <textarea id="feedback" onkeyup="countChars(this)"></textarea></label><br />
+                <p id="charCount">Characters: 0</p><br />
+                <button type="submit">Register</button><br />
+                <output id="confirmation"></output><br />
+            </fieldset>
+        </form>
+
+        <form>
+            <fieldset class="eventCard">
+                <legend><h3>Fees</h3></legend>
+                <select onchange="showFee(this)">
+                    <option value="">Select Event</option>
+                    <option value="free">Community Picnic - Free</option>
+                    <option value="10">Concert - $10</option>
+                </select>
+                <p id="fee"></p>
+            </fieldset>
+        </form>
+
+        <section id="contact">
+            <h2 class="section-header">Contact Us</h2>
+            <p>Email: support@cityportal.com | Phone: 123-456-7890</p>
+            <video id="promo" width="100%" height="300px" controls oncanplay="videoReady()">
+                <source src="./videos/demo.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+            </video>
+            <p id="videoStatus"></p>
+            <button onclick="getLocation()">Find Nearby Events</button>
+            <p id="locationStatus"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Local City Council</p>
+    </footer>
+
+    <script>
+        window.onload = function () {
+            const saved = localStorage.getItem("eventPref");
+            if (saved) {
+                document.getElementById("eventType").value = saved;
+            }
+        }
+
+        function submitForm(e) {
+            e.preventDefault();
+            document.getElementById("confirmation").innerHTML = "Successfully registered event!";
+        }
+
+        function toggle(num) {
+            var element = document.getElementById("img" + num);
+            element.classList.toggle("eventimagedc")
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById("phone").value;
+            if (!/^[0-9]{10}$/.test(phone)) alert("Enter a valid 10-digit number");
+        }
+
+        function countChars(textarea) {
+            document.getElementById("charCount").textContent = "Characters: " + textarea.value.length;
+        }
+
+        function videoReady() {
+            document.getElementById("videoStatus").textContent = "Video ready!";
+        }
+
+        function showFee(select) {
+            document.getElementById("fee").textContent = "Fee: $" + (select.value === "free" ? "0" : select.value);
+        }
+
+        function savePreference(select) {
+            localStorage.setItem("eventPref", select.value)
+        }
+
+        function clearPrefs() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert("Preferences cleared");
+        }
+
+        function getLocation() {
+            if (!navigator.geolocation) {
+                return document.getElementById("locationStatus").textContent = "Geolocation not supported";
+            }
+            navigator.geolocation.getCurrentPosition(
+                pos => {
+                    const { latitude, longitude } = pos.coords;
+                    document.getElementById("locationStatus").textContent = `Coordinates: ${latitude}, ${longitude}`;
+                },
+                err => {
+                    document.getElementById("locationStatus").textContent = "Error: " + err.message;
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                }
+            );
+        }
+    </script>
+</body>
+</html>
